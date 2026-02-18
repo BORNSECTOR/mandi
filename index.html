@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandi - Fresh. Direct. Connected. | Farm to Table Marketplace</title>
+    <meta name="description" content="Mandi is a direct-from-farm marketplace connecting farmers with buyers. No middlemen, fair prices, and fresh produce. Join the waitlist for early access.">
+    <meta name="keywords" content="agriculture, farm to table, mandi, farmers market, fresh produce, b2b agriculture, supply chain">
+    <meta name="author" content="Mandi Technologies">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Mandi - Fresh. Direct. Connected.">
+    <meta property="og:description" content="Revolutionizing the mandi system. Connect directly with farmers and buyers.">
+    <meta property="og:image" content="https://i.ibb.co/cXYMZBgk/image-18.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Config & Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Outfit', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        bg: '#F8F4EC',
+                        chocolate: '#4A3B32',
+                        accent: '#F4A261',
+                        accentHover: '#E78F4B',
+                        textLight: '#8C7B70',
+                        border: '#E8E0D5',
+                        bakedWhite: '#FAF9F6', 
+                        deepBrown: '#5e2c15', // Exact requested brown
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'shuttle': 'shuttle 2s linear infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'slide-down': 'slide-down 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-in-up': 'fade-in-up 1s ease-out forwards',
+                        'scale-up': 'scale-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        shuttle: {
+                            '0%': { left: '0', opacity: '0' },
+                            '20%': { opacity: '1' },
+                            '80%': { opacity: '1' },
+                            '100%': { left: '100%', opacity: '0' },
+                        },
+                        'slide-down': {
+                            'from': { transform: 'translateY(-100%)', opacity: '0' },
+                            'to': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        'fade-in-up': {
+                            'from': { transform: 'translateY(40px)', opacity: '0' },
+                            'to': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        'scale-up': {
+                            'from': { transform: 'scale(0.9)', opacity: '0' },
+                            'to': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F4EC;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D6CCC2;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4A3B32;
+        }
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Modal Transitions */
+        .modal-backdrop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-bg text-chocolate min-h-screen overflow-x-hidden relative selection:bg-accent selection:text-white">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed top-6 left-0 right-0 z-50 transition-all duration-500 flex justify-center px-4">
+        <div id="navbar-container" class="relative flex items-center justify-between bg-bakedWhite/90 backdrop-blur-xl rounded-full px-6 py-3 shadow-2xl shadow-chocolate/10 transition-all duration-500 border border-white/40 w-[95%] md:w-[85%] animate-slide-down">
+            
+            <!-- Logo -->
+            <div class="flex items-center group cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="relative transition-transform group-hover:scale-110 duration-300">
+                    <img src="https://i.ibb.co/8LqpLsLK/Frame-66.png" alt="Mandi Logo" class="h-10 w-auto object-contain">
+                </div>
+            </div>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8 text-sm font-semibold text-textLight">
+                <a href="#who-is-it-for" class="hover:text-chocolate transition-colors relative group py-2">
+                    Who is it for?
+                    <span class="absolute bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full rounded-full"></span>
+                </a>
+                <a href="#how-it-works" class="hover:text-chocolate transition-colors relative group py-2">
+                    How It Works
+                    <span class="absolute bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full rounded-full"></span>
+                </a>
+                <a href="#faq" class="hover:text-chocolate transition-colors relative group py-2">
+                    FAQ
+                    <span class="absolute bottom-1 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full rounded-full"></span>
+                </a>
+            </div>
+
+            <!-- CTA Button -->
+            <button onclick="openModal()" class="relative overflow-hidden bg-chocolate text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-chocolate/20 hover:shadow-chocolate/40 transform hover:-translate-y-0.5 active:scale-95 transition-all duration-300 group">
+                <span class="relative z-10 flex items-center gap-2">
+                    Join Waitlist
+                    <i data-lucide="arrow-right" class="w-4 h-4 text-accent transition-transform group-hover:translate-x-1"></i>
+                </span>
+                <div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10">
+        
+        <!-- Hero Section with Background Banner -->
+        <section class="relative pt-32 pb-20 px-4 md:px-8 min-h-screen flex flex-col items-center justify-center text-center overflow-hidden">
+            
+            <!-- Background Image Banner (High Visibility) -->
+            <div class="absolute inset-0 z-0">
+                <img src="https://i.ibb.co/cXYMZBgk/image-18.png" alt="Mandi Agriculture Background" class="w-full h-full object-cover animate-scale-up" style="animation-duration: 2s;">
+                <!-- Very light overlay just to ensure text is readable but image pops -->
+                <div class="absolute inset-0 bg-white/30 mix-blend-overlay"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-bg/60 via-transparent to-bg/80"></div>
+            </div>
+
+            <!-- Floating Decorative Blobs (On top of bg, behind text) -->
+            <div class="absolute top-1/4 left-10 w-32 h-32 bg-accent/20 rounded-full blur-2xl animate-float -z-0"></div>
+            <div class="absolute bottom-1/4 right-10 w-40 h-40 bg-green-400/20 rounded-full blur-2xl animate-float-delayed -z-0"></div>
+
+            <div class="max-w-6xl mx-auto w-full relative z-10 space-y-10 animate-fade-in-up px-4">
+                
+                <!-- Hero Text Content - Added max-w to create horizontal gap for popups -->
+                <div class="space-y-8 max-w-2xl mx-auto">
+                    <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/90 border border-white/50 text-chocolate shadow-lg backdrop-blur-md animate-bounce-slow">
+                        <span class="flex h-2.5 w-2.5 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
+                        </span>
+                        <span class="text-xs font-bold uppercase tracking-widest">Pre-Launch Access</span>
+                    </div>
+
+                    <h1 class="text-6xl md:text-8xl lg:text-9xl font-black leading-[0.9] text-chocolate tracking-tight drop-shadow-sm">
+                        Fresh. Direct. <br/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent to-accentHover relative inline-block">
+                            Connected.
+                            <svg class="absolute w-full h-3 -bottom-1 left-0 text-accent opacity-60" viewBox="0 0 200 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.00025 6.99992C18.5002 2.49992 48.5002 0.99992 82.5002 1.49992C116.5 1.99992 191.5 9.49992 198 8.99992" stroke="currentColor" stroke-width="3"/></svg>
+                        </span>
+                    </h1>
+                    
+                    <p class="text-xl md:text-2xl text-chocolate max-w-xl mx-auto leading-relaxed font-bold drop-shadow-md">
+                        Revolutionizing agricultural trade. Connect directly with farmers and buyers. <br class="hidden md:block" /> No middlemen, just fresh produce and fair prices.
+                    </p>
+
+                    <div class="pt-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <button onclick="openModal()" class="px-12 py-5 bg-chocolate text-white rounded-full font-bold text-xl shadow-2xl shadow-chocolate/30 hover:bg-[#3A2E26] transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center gap-3 group">
+                            Get Early Access
+                            <div class="bg-white/20 rounded-full p-1 group-hover:translate-x-1 transition-transform">
+                                <i data-lucide="arrow-right" class="w-6 h-6"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Floating Cards (Positioned MUCH further apart) -->
+                <div class="hidden xl:block absolute top-1/2 -translate-y-1/2 left-0 w-full pointer-events-none h-full">
+                    <!-- Farmers Card - Far Top Left -->
+                    <div class="absolute -left-20 top-24 bg-white/95 backdrop-blur p-5 rounded-3xl shadow-xl animate-float border border-white/60 transform -rotate-6 hover:rotate-0 transition-transform duration-500 hover:scale-105 pointer-events-auto">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-green-100 p-3 rounded-2xl">
+                                <i data-lucide="sprout" class="w-8 h-8 text-green-600"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-[10px] text-textLight font-bold uppercase tracking-wider">Farmers</p>
+                                <p class="text-lg font-bold text-chocolate">Verified & Active</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Buyers Card - Far Bottom Right -->
+                    <div class="absolute -right-20 bottom-36 bg-white/95 backdrop-blur p-5 rounded-3xl shadow-xl animate-float-delayed border border-white/60 transform rotate-6 hover:rotate-0 transition-transform duration-500 hover:scale-105 pointer-events-auto">
+                        <div class="flex items-center gap-4">
+                            <div class="bg-orange-100 p-3 rounded-2xl">
+                                <i data-lucide="shopping-basket" class="w-8 h-8 text-accent"></i>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-[10px] text-textLight font-bold uppercase tracking-wider">Buyers</p>
+                                <p class="text-lg font-bold text-chocolate">Direct Connect</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Stats Bar -->
+        <div class="max-w-5xl mx-auto px-6 mb-24 relative z-20 -mt-10">
+            <div class="bg-white border border-border rounded-[3rem] p-10 md:p-14 shadow-[0_20px_60px_-15px_rgba(74,59,50,0.1)] flex flex-col md:flex-row justify-between items-center gap-8 md:gap-0 hover:translate-y-[-5px] transition-transform duration-500 scroll-reveal">
+                
+                <div class="flex flex-col items-center justify-center group cursor-default w-full md:w-auto">
+                    <div id="stat-total" class="text-5xl md:text-6xl font-black text-chocolate mb-2 transition-all duration-500 tabular-nums group-hover:scale-110 group-hover:text-accent">0</div>
+                    <div class="text-xs font-bold text-textLight uppercase tracking-wide flex items-center gap-2 group-hover:text-chocolate transition-colors">
+                        Waiting List
+                    </div>
+                </div>
+
+                <div class="hidden md:block w-px h-20 bg-border"></div>
+
+                <div class="flex flex-col items-center justify-center group cursor-default w-full md:w-auto">
+                    <div id="stat-buyers" class="text-5xl md:text-6xl font-black text-chocolate mb-2 transition-all duration-500 tabular-nums group-hover:scale-110 group-hover:text-accent">0</div>
+                    <div class="text-xs font-bold text-textLight uppercase tracking-wide flex items-center gap-2 group-hover:text-chocolate transition-colors">
+                        <i data-lucide="shopping-basket" class="w-4 h-4"></i> Active Buyers
+                    </div>
+                </div>
+
+                <div class="hidden md:block w-px h-20 bg-border"></div>
+
+                <div class="flex flex-col items-center justify-center group cursor-default w-full md:w-auto">
+                    <div id="stat-sellers" class="text-5xl md:text-6xl font-black text-chocolate mb-2 transition-all duration-500 tabular-nums group-hover:scale-110 group-hover:text-accent">0</div>
+                    <div class="text-xs font-bold text-textLight uppercase tracking-wide flex items-center gap-2 group-hover:text-chocolate transition-colors">
+                        <i data-lucide="sprout" class="w-4 h-4"></i> Verified Farmers
+                    </div>
+                </div>
+
+                <div class="w-full md:w-auto pt-6 md:pt-0 md:pl-8 flex flex-col items-center justify-center text-center">
+                    <div class="flex items-center gap-2 mb-2 bg-green-50 px-4 py-2 rounded-full border border-green-100 shadow-sm animate-pulse-slow">
+                        <span class="relative flex h-2.5 w-2.5">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-600"></span>
+                        </span>
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-green-800">Live Updates</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Who Is It For -->
+        <section id="who-is-it-for" class="py-24 px-6 relative overflow-hidden scroll-reveal">
+            <!-- Background Decor -->
+            <div class="absolute top-1/2 left-0 w-96 h-96 bg-accent/5 rounded-full blur-[100px] -translate-y-1/2 animate-pulse-slow"></div>
+
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <span class="text-accent font-bold tracking-widest uppercase text-sm mb-3 block animate-bounce-slow">Ecosystem</span>
+                    <h2 class="text-4xl md:text-6xl font-black text-chocolate mb-6">Who is Mandi for?</h2>
+                    <p class="text-textLight max-w-2xl mx-auto text-lg leading-relaxed">We bridge the gap between production and consumption, creating value for both ends of the supply chain.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                    <!-- Farmers Card -->
+                    <div class="relative group bg-chocolate rounded-[3rem] p-10 md:p-14 text-bg overflow-hidden hover:shadow-2xl hover:shadow-chocolate/20 transition-all duration-500 transform hover:-translate-y-2">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-accent rounded-full blur-[80px] opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-white/10 rounded-3xl flex items-center justify-center mb-10 border border-white/10 shadow-inner group-hover:scale-110 transition-transform duration-500">
+                                <i data-lucide="sprout" class="w-10 h-10 text-accent"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-6">Farmers & Producers</h3>
+                            <ul class="space-y-5 text-border text-lg">
+                                <li class="flex items-start gap-4">
+                                    <div class="mt-1 bg-accent/20 p-1 rounded-full"><i data-lucide="check" class="w-4 h-4 text-accent"></i></div>
+                                    <span>Sell directly to bulk buyers</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="mt-1 bg-accent/20 p-1 rounded-full"><i data-lucide="check" class="w-4 h-4 text-accent"></i></div>
+                                    <span>Instant payments upon delivery</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="mt-1 bg-accent/20 p-1 rounded-full"><i data-lucide="check" class="w-4 h-4 text-accent"></i></div>
+                                    <span>Access to wider market</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Buyers Card -->
+                    <div class="relative group bg-white border border-border rounded-[3rem] p-10 md:p-14 text-chocolate overflow-hidden hover:shadow-2xl hover:shadow-chocolate/5 transition-all duration-500 transform hover:-translate-y-2">
+                        <div class="absolute bottom-0 left-0 w-64 h-64 bg-accent rounded-full blur-[80px] opacity-10 group-hover:opacity-20 transition-opacity duration-500"></div>
+                        <div class="relative z-10">
+                            <div class="w-20 h-20 bg-bg rounded-3xl flex items-center justify-center mb-10 border border-border shadow-sm group-hover:scale-110 transition-transform duration-500">
+                                <i data-lucide="store" class="w-10 h-10 text-chocolate"></i>
+                            </div>
+                            <h3 class="text-3xl font-bold mb-6">Retailers & Consumers</h3>
+                            <ul class="space-y-5 text-textLight text-lg">
+                                <li class="flex items-start gap-4">
+                                    <div class="mt-1 bg-chocolate/10 p-1 rounded-full"><i data-lucide="check" class="w-4 h-4 text-chocolate"></i></div>
+                                    <span>Source fresh groceries directly</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="mt-1 bg-chocolate/10 p-1 rounded-full"><i data-lucide="check" class="w-4 h-4 text-chocolate"></i></div>
+                                    <span>Better margins by cutting layers</span>
+                                </li>
+                                <li class="flex items-start gap-4">
+                                    <div class="mt-1 bg-chocolate/10 p-1 rounded-full"><i data-lucide="check" class="w-4 h-4 text-chocolate"></i></div>
+                                    <span>Traceable quality assurance</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Direct Connection -->
+        <section class="py-24 px-6 bg-chocolate text-bg relative overflow-hidden scroll-reveal">
+            <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+            
+            <div class="max-w-5xl mx-auto text-center relative z-10">
+                <div class="inline-block p-6 rounded-full bg-accent/20 mb-10 animate-bounce-slow border border-accent/20">
+                    <i data-lucide="truck" class="w-10 h-10 text-accent"></i>
+                </div>
+                <h2 class="text-4xl md:text-7xl font-black mb-8 leading-tight">No Middlemen.<br/>Just Connection.</h2>
+                <p class="text-xl text-border max-w-3xl mx-auto mb-16 leading-relaxed opacity-90">
+                    We replace the chaotic chain of agents with a single, transparent digital highway. 
+                    Farmers get more. Buyers pay less.
+                </p>
+
+                <!-- Visual Connector -->
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-24">
+                    <div class="text-center group">
+                        <div class="w-28 h-28 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/20 transition-all group-hover:scale-110 group-hover:bg-white/20 hover:animate-pulse">
+                            <i data-lucide="sprout" class="w-12 h-12 text-accent"></i>
+                        </div>
+                        <h4 class="font-bold text-2xl">Farm</h4>
+                    </div>
+
+                    <div class="flex-1 h-1 md:h-0.5 bg-gradient-to-r from-transparent via-accent to-transparent w-full max-w-[250px] relative opacity-50">
+                        <div class="absolute top-1/2 left-0 w-4 h-4 bg-accent rounded-full -translate-y-1/2 animate-shuttle shadow-[0_0_20px_rgba(244,162,97,0.8)]"></div>
+                    </div>
+
+                    <div class="text-center group">
+                        <div class="w-28 h-28 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/20 transition-all group-hover:scale-110 group-hover:bg-white/20 hover:animate-pulse">
+                            <i data-lucide="shopping-basket" class="w-12 h-12 text-accent"></i>
+                        </div>
+                        <h4 class="font-bold text-2xl">Table</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section id="how-it-works" class="py-24 px-6 scroll-reveal">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl md:text-6xl font-black text-chocolate mb-6">Simple 3-Step Process</h2>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Step 1 -->
+                    <div class="bg-white rounded-[2.5rem] p-10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-border relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-accent/5 rounded-bl-[100%] transition-transform group-hover:scale-150 duration-700 ease-out"></div>
+                        <div class="w-16 h-16 bg-bg rounded-2xl flex items-center justify-center mb-8 border border-border relative z-10 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="search" class="w-8 h-8 text-chocolate group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-chocolate mb-4 relative z-10">1. List / Browse</h3>
+                        <p class="text-textLight leading-relaxed relative z-10 text-lg">Farmers list harvest dates. Buyers browse live inventory.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="bg-white rounded-[2.5rem] p-10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-border relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-accent/5 rounded-bl-[100%] transition-transform group-hover:scale-150 duration-700 ease-out"></div>
+                        <div class="w-16 h-16 bg-bg rounded-2xl flex items-center justify-center mb-8 border border-border relative z-10 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="shield-check" class="w-8 h-8 text-chocolate group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-chocolate mb-4 relative z-10">2. Secure Deal</h3>
+                        <p class="text-textLight leading-relaxed relative z-10 text-lg">Lock prices and quantity instantly with smart contracts.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="bg-white rounded-[2.5rem] p-10 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-border relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-accent/5 rounded-bl-[100%] transition-transform group-hover:scale-150 duration-700 ease-out"></div>
+                        <div class="w-16 h-16 bg-bg rounded-2xl flex items-center justify-center mb-8 border border-border relative z-10 group-hover:bg-accent group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="truck" class="w-8 h-8 text-chocolate group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-chocolate mb-4 relative z-10">3. Direct Delivery</h3>
+                        <p class="text-textLight leading-relaxed relative z-10 text-lg">Logistics coordinated directly from farm gate to shop door.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Choose Role -->
+        <section class="py-24 px-6 bg-accent/5 scroll-reveal">
+            <div class="max-w-5xl mx-auto bg-white rounded-[3rem] p-12 md:p-24 shadow-xl border border-border text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+                
+                <h2 class="text-4xl md:text-6xl font-black text-chocolate mb-8">Ready to modernize your trade?</h2>
+                <p class="text-textLight mb-16 max-w-lg mx-auto text-xl">Join thousands of others transforming the agricultural landscape.</p>
+                
+                <div class="flex flex-col md:flex-row justify-center gap-8">
+                    <button onclick="openModal('buyer')" class="group relative overflow-hidden rounded-2xl bg-chocolate text-white p-1 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                        <div class="relative px-12 py-6 bg-chocolate rounded-xl flex items-center gap-6 transition-transform group-hover:bg-[#3A2E26]">
+                            <i data-lucide="shopping-basket" class="w-8 h-8 text-accent group-hover:scale-110 transition-transform"></i>
+                            <div class="text-left">
+                                <span class="block text-xs text-border uppercase tracking-wider font-bold">Join as</span>
+                                <span class="block text-2xl font-bold">Buyer</span>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors">
+                                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </button>
+
+                    <button onclick="openModal('seller')" class="group relative overflow-hidden rounded-2xl bg-white border-2 border-chocolate text-chocolate p-1 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                        <div class="relative px-12 py-6 bg-white rounded-xl flex items-center gap-6">
+                            <i data-lucide="sprout" class="w-8 h-8 text-chocolate group-hover:scale-110 transition-transform"></i>
+                            <div class="text-left">
+                                <span class="block text-xs text-textLight uppercase tracking-wider font-bold">Join as</span>
+                                <span class="block text-2xl font-bold">Seller</span>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-bg flex items-center justify-center group-hover:bg-chocolate group-hover:text-white transition-colors">
+                                <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-24 px-6 scroll-reveal">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-4xl md:text-5xl font-bold text-chocolate mb-16 text-center">Frequently Asked Questions</h2>
+                <div class="space-y-6">
+                    <!-- FAQ 1 -->
+                    <div class="bg-white rounded-3xl border border-border overflow-hidden hover:border-accent hover:shadow-lg transition-all duration-300">
+                        <button onclick="toggleFaq(this)" class="w-full px-8 py-6 text-left flex justify-between items-center group">
+                            <span class="font-bold text-xl text-chocolate">Is Mandi free to use?</span>
+                            <div class="w-10 h-10 rounded-full bg-bg flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors">
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-textLight transition-transform duration-300 group-[.open]:rotate-180 group-hover:text-white"></i>
+                            </div>
+                        </button>
+                        <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                            <div class="px-8 pb-8 text-textLight leading-relaxed text-lg">
+                                Yes, joining the platform and listing requirements is free. We charge a small, transparent transaction fee only when a deal is successful.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FAQ 2 -->
+                    <div class="bg-white rounded-3xl border border-border overflow-hidden hover:border-accent hover:shadow-lg transition-all duration-300">
+                        <button onclick="toggleFaq(this)" class="w-full px-8 py-6 text-left flex justify-between items-center group">
+                            <span class="font-bold text-xl text-chocolate">How do you ensure quality?</span>
+                            <div class="w-10 h-10 rounded-full bg-bg flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors">
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-textLight transition-transform duration-300 group-[.open]:rotate-180 group-hover:text-white"></i>
+                            </div>
+                        </button>
+                        <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                            <div class="px-8 pb-8 text-textLight leading-relaxed text-lg">
+                                We have a network of verification agents who inspect produce at the farm gate before dispatch, ensuring you get exactly what you ordered.
+                            </div>
+                        </div>
+                    </div>
+                     <!-- FAQ 3 -->
+                     <div class="bg-white rounded-3xl border border-border overflow-hidden hover:border-accent hover:shadow-lg transition-all duration-300">
+                        <button onclick="toggleFaq(this)" class="w-full px-8 py-6 text-left flex justify-between items-center group">
+                            <span class="font-bold text-xl text-chocolate">Do you handle logistics?</span>
+                            <div class="w-10 h-10 rounded-full bg-bg flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors">
+                                <i data-lucide="chevron-down" class="w-5 h-5 text-textLight transition-transform duration-300 group-[.open]:rotate-180 group-hover:text-white"></i>
+                            </div>
+                        </button>
+                        <div class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out">
+                            <div class="px-8 pb-8 text-textLight leading-relaxed text-lg">
+                                Absolutely. We partner with reliable logistics providers to ensure timely pickup and delivery from farm to warehouse/shop.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-deepBrown text-white pt-20 pb-10 px-6 relative">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 border-b border-[#7d4e37]/30 pb-16 relative z-10">
+            
+            <!-- Brand -->
+            <div class="col-span-1 md:col-span-1">
+                <div class="flex items-center gap-2 mb-8">
+                    <!-- Correct Logo - No filters -->
+                    <img src="https://i.ibb.co/5WsC42S4/Frame-66.png" alt="Mandi Logo" class="h-14 w-auto object-contain">
+                </div>
+                <p class="text-sm leading-relaxed mb-8 text-[#D6CCC2]">
+                    Building the digital infrastructure for India's agricultural future. Empowering farmers, enabling buyers.
+                </p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 flex items-center justify-center bg-[#4a2311] rounded-full hover:bg-accent hover:text-deepBrown transition-all transform hover:scale-110"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center bg-[#4a2311] rounded-full hover:bg-accent hover:text-deepBrown transition-all transform hover:scale-110"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center bg-[#4a2311] rounded-full hover:bg-accent hover:text-deepBrown transition-all transform hover:scale-110"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    <a href="#" class="w-10 h-10 flex items-center justify-center bg-[#4a2311] rounded-full hover:bg-accent hover:text-deepBrown transition-all transform hover:scale-110"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div>
+                <h4 class="text-white font-bold mb-6 text-lg">Platform</h4>
+                <ul class="space-y-4 text-sm text-[#D6CCC2]">
+                    <li><a href="#" class="hover:text-accent transition-colors hover:translate-x-1 inline-block transform duration-200">Browse Crops</a></li>
+                    <li><a href="#" class="hover:text-accent transition-colors hover:translate-x-1 inline-block transform duration-200">Sell Produce</a></li>
+                    <li><a href="#" class="hover:text-accent transition-colors hover:translate-x-1 inline-block transform duration-200">Pricing</a></li>
+                    <li><a href="#" class="hover:text-accent transition-colors hover:translate-x-1 inline-block transform duration-200">Logistics</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold mb-6 text-lg">Company</h4>
+                <ul class="space-y-4 text-sm text-[#D6CCC2]">
+                    <li><a href="#" class="hover:text-accent transition-colors hover:translate-x-1 inline-block transform duration-200">About Us</a></li>
+                    <li><a href="#" class="hover:text-accent transition-colors hover:translate-x-1 inline-block transform duration-200">Careers</a></li>
+                    <li><a href="#" class="hover:text-accent transition-colors hover:translate-x-1 inline-block transform duration-200">Blog</a></li>
+                    <li><a href="#" class="hover:text-accent transition-colors hover:translate-x-1 inline-block transform duration-200">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Newsletter -->
+            <div>
+                <h4 class="text-white font-bold mb-6 text-lg">Stay Updated</h4>
+                <p class="text-sm text-[#D6CCC2] mb-6">Get the latest market rates and agricultural news directly to your inbox.</p>
+                <form class="flex flex-col gap-3" onsubmit="event.preventDefault();">
+                    <input type="email" placeholder="Your email address" class="bg-[#4a2311] border border-[#7d4e37]/50 rounded-xl px-5 py-4 text-sm focus:outline-none focus:border-accent text-white placeholder:text-[#D6CCC2]/50" />
+                    <button class="bg-accent text-deepBrown font-bold rounded-xl px-5 py-4 text-sm hover:bg-accentHover transition-colors shadow-lg hover:shadow-orange-500/20">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-[#D6CCC2]/60">
+            <p>&copy; 2024 Mandi Technologies Pvt Ltd. All rights reserved.</p>
+            <div class="flex gap-8 mt-4 md:mt-0 font-medium">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Structure -->
+    <div id="waitlist-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop">
+        <div class="absolute inset-0 bg-chocolate/60 backdrop-blur-md" onclick="closeModal()"></div>
+        
+        <div class="relative bg-white rounded-[3rem] shadow-2xl w-full max-w-lg overflow-hidden border-[6px] border-bg transition-transform duration-300 transform scale-95 opacity-0" id="modal-content">
+            <button onclick="closeModal()" class="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors z-10">
+                <i data-lucide="x" class="w-6 h-6 text-textLight"></i>
+            </button>
+
+            <!-- Step 1: Role -->
+            <div id="modal-step-1" class="p-8 md:p-14 text-center">
+                <h3 class="text-3xl font-bold text-chocolate mb-10">Choose Account Type</h3>
+                <div class="space-y-5">
+                    <div class="cursor-pointer border-2 border-border hover:border-accent/50 hover:bg-[#F9F7F5] rounded-[2rem] p-5 transition-all duration-300 role-option" onclick="selectRole('buyer', this)">
+                        <div class="flex items-center gap-5 pointer-events-none">
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center role-radio"></div>
+                            <div class="text-left">
+                                <span class="block font-bold text-lg text-chocolate">Register as Buyer</span>
+                                <span class="text-xs font-medium text-textLight">Restaurants, wholesalers & retailers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cursor-pointer border-2 border-border hover:border-accent/50 hover:bg-[#F9F7F5] rounded-[2rem] p-5 transition-all duration-300 role-option" onclick="selectRole('seller', this)">
+                         <div class="flex items-center gap-5 pointer-events-none">
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300 flex items-center justify-center role-radio"></div>
+                            <div class="text-left">
+                                <span class="block font-bold text-lg text-chocolate">Register as Seller</span>
+                                <span class="text-xs font-medium text-textLight">Farmers, FPOs & aggregators</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="step-1-btn" disabled onclick="setStep(2)" class="mt-10 w-full py-4 bg-accent text-white rounded-2xl font-bold text-lg hover:bg-accentHover disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-orange-200">Continue</button>
+            </div>
+
+            <!-- Step 2: Form -->
+            <div id="modal-step-2" class="p-8 md:p-14 hidden">
+                <div class="text-center mb-10">
+                    <span id="role-badge" class="inline-block px-4 py-1.5 bg-orange-100 text-orange-700 rounded-full text-[11px] font-bold uppercase tracking-wider mb-4">ACCESS</span>
+                    <h3 class="text-3xl font-bold text-chocolate">We're Launching Soon</h3>
+                    <p class="text-textLight text-sm mt-3 font-medium">Join the waitlist to get early beta access.</p>
+                </div>
+                
+                <form onsubmit="handleFormSubmit(event)" class="space-y-5">
+                    <input required type="text" id="input-name" placeholder="Full Name" class="w-full px-5 py-4 bg-bg border border-transparent rounded-2xl focus:bg-white focus:border-accent outline-none transition-all placeholder:text-textLight/60 text-chocolate font-medium">
+                    <input required type="email" id="input-email" placeholder="Email Address" class="w-full px-5 py-4 bg-bg border border-transparent rounded-2xl focus:bg-white focus:border-accent outline-none transition-all placeholder:text-textLight/60 text-chocolate font-medium">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="tel" id="input-phone" placeholder="Phone (Opt)" class="w-full px-5 py-4 bg-bg border border-transparent rounded-2xl focus:bg-white focus:border-accent outline-none transition-all placeholder:text-textLight/60 text-chocolate font-medium">
+                        <input type="text" id="input-city" placeholder="City" class="w-full px-5 py-4 bg-bg border border-transparent rounded-2xl focus:bg-white focus:border-accent outline-none transition-all placeholder:text-textLight/60 text-chocolate font-medium">
+                    </div>
+                    
+                    <p id="form-error" class="text-red-500 text-sm font-semibold text-center bg-red-50 py-2 rounded-lg hidden"></p>
+
+                    <button type="submit" id="submit-btn" class="w-full py-4 bg-gradient-to-r from-accent to-accentHover text-white rounded-2xl font-bold shadow-lg shadow-orange-200 hover:shadow-orange-300 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-3 text-lg">
+                        Join The Waitlist
+                    </button>
+                    <button type="button" onclick="setStep(1)" class="w-full text-sm text-textLight hover:text-accent mt-2 font-medium">Back to role selection</button>
+                </form>
+            </div>
+
+            <!-- Step 3: Success -->
+            <div id="modal-step-3" class="p-8 md:p-14 text-center bg-[#FDFBF7] h-full flex flex-col items-center justify-center hidden">
+                <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 shadow-sm animate-bounce-slow">
+                    <i data-lucide="check-circle-2" class="w-12 h-12 text-green-600"></i>
+                </div>
+                <h3 class="text-4xl font-bold text-chocolate mb-4">You're on the list! 🎉</h3>
+                <p class="text-textLight mb-10 text-lg">We'll notify you as soon as we launch in your area.</p>
+                <div class="bg-white border border-border rounded-[2rem] p-8 shadow-sm mb-10 w-full">
+                    <p class="text-xs text-textLight uppercase tracking-wider mb-2 font-bold">Your Position</p>
+                    <p id="user-position" class="text-6xl font-black text-accent tracking-tighter">...</p>
+                </div>
+                <button onclick="closeModal()" class="text-chocolate font-bold hover:text-accent transition-colors border-b-2 border-transparent hover:border-accent">Close window</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module">
+        // Firebase Setup
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp, where, getDocs } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+
+        // NOTE: In a real environment, __firebase_config and __app_id would be injected.
+        // For standalone HTML, you would replace these with your actual config.
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}'); 
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let app, auth, db, user;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+
+            // Auth Logic
+            const initAuth = async () => {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            };
+            initAuth();
+
+            onAuthStateChanged(auth, (u) => {
+                user = u;
+                if (user) setupRealtimeStats();
+            });
+
+        } catch (e) {
+            console.warn("Firebase not configured or script running locally without config.");
+        }
+
+        // Realtime Stats
+        function setupRealtimeStats() {
+            const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'waitlist'));
+            onSnapshot(q, (snapshot) => {
+                let b = 0, s = 0;
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.role === 'buyer') b++;
+                    if (data.role === 'seller') s++;
+                });
+                
+                // Update DOM
+                document.getElementById('stat-total').innerText = snapshot.size.toLocaleString();
+                document.getElementById('stat-buyers').innerText = b.toLocaleString();
+                document.getElementById('stat-sellers').innerText = s.toLocaleString();
+            });
+        }
+
+        // Make functions global for inline event handlers
+        window.handleFormSubmit = async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            const errorEl = document.getElementById('form-error');
+            
+            if (!user) {
+                errorEl.innerText = "Network error. Please reload.";
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-6 h-6 animate-spin"></i> Processing...';
+            lucide.createIcons();
+
+            const formData = {
+                name: document.getElementById('input-name').value,
+                email: document.getElementById('input-email').value,
+                phone: document.getElementById('input-phone').value,
+                city: document.getElementById('input-city').value,
+                role: window.selectedRole,
+                uid: user.uid,
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                // Check dupes
+                const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'waitlist'), where('email', '==', formData.email));
+                const docs = await getDocs(q);
+
+                if (!docs.empty) {
+                    throw new Error("This email is already on the waitlist!");
+                }
+
+                await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'waitlist'), formData);
+                
+                // Get position
+                const allDocs = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'waitlist'));
+                document.getElementById('user-position').innerText = `#${allDocs.size.toLocaleString()}`;
+
+                setStep(3);
+            } catch (err) {
+                errorEl.innerText = err.message || "Something went wrong.";
+                errorEl.classList.remove('hidden');
+                btn.disabled = false;
+                btn.innerText = "Join The Waitlist";
+            }
+        };
+    </script>
+
+    <script>
+        // UI Logic
+        window.selectedRole = null;
+
+        // Icons
+        lucide.createIcons();
+
+        // Scroll Navbar Logic
+        window.addEventListener('scroll', () => {
+            const navContainer = document.getElementById('navbar-container');
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.replace('top-8', 'top-6');
+                navContainer.classList.replace('w-[95%]', 'w-[90%]');
+                navContainer.classList.replace('md:w-[85%]', 'md:w-[70%]');
+                navContainer.classList.replace('py-3', 'py-2');
+            } else {
+                nav.classList.replace('top-6', 'top-8');
+                navContainer.classList.replace('w-[90%]', 'w-[95%]');
+                navContainer.classList.replace('md:w-[70%]', 'md:w-[85%]');
+                navContainer.classList.replace('py-2', 'py-3');
+            }
+        });
+
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+        // FAQ Toggle
+        function toggleFaq(btn) {
+            btn.classList.toggle('open');
+            const content = btn.nextElementSibling;
+            if (btn.classList.contains('open')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = "0";
+            }
+        }
+
+        // Modal Logic
+        function openModal(role = null) {
+            const modal = document.getElementById('waitlist-modal');
+            const content = document.getElementById('modal-content');
+            modal.classList.add('open');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+
+            if (role) {
+                // Simulate click on role
+                const els = document.querySelectorAll('.role-option');
+                if (role === 'buyer') selectRole('buyer', els[0]);
+                else selectRole('seller', els[1]);
+                setStep(2);
+            } else {
+                setStep(1);
+            }
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('waitlist-modal');
+            const content = document.getElementById('modal-content');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.remove('open');
+            }, 300);
+        }
+
+        function setStep(step) {
+            document.getElementById('modal-step-1').classList.add('hidden');
+            document.getElementById('modal-step-2').classList.add('hidden');
+            document.getElementById('modal-step-3').classList.add('hidden');
+            
+            document.getElementById(`modal-step-${step}`).classList.remove('hidden');
+        }
+
+        function selectRole(role, el) {
+            window.selectedRole = role;
+            
+            // Reset UI
+            document.querySelectorAll('.role-option').forEach(div => {
+                div.classList.remove('border-accent', 'bg-orange-50', 'shadow-inner');
+                div.classList.add('border-border');
+                div.querySelector('.role-radio').classList.remove('border-accent');
+                div.querySelector('.role-radio').innerHTML = '';
+            });
+
+            // Activate Selected
+            el.classList.remove('border-border');
+            el.classList.add('border-accent', 'bg-orange-50', 'shadow-inner');
+            el.querySelector('.role-radio').classList.add('border-accent');
+            el.querySelector('.role-radio').innerHTML = '<div class="w-3 h-3 bg-accent rounded-full"></div>';
+
+            // Enable Button
+            document.getElementById('step-1-btn').disabled = false;
+            
+            // Update step 2 badge
+            document.getElementById('role-badge').innerText = role === 'buyer' ? 'BUYER ACCESS' : 'SELLER ACCESS';
+        }
+    </script>
+</body>
+</html>
