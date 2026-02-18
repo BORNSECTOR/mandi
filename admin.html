@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Mandi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: { sans: ['Outfit', 'sans-serif'] },
+                extend: { colors: { chocolate: '#4A3B32', accent: '#F4A261', bg: '#F8F4EC' } }
+            }
+        }
+    </script>
+</head>
+<body class="bg-bg text-chocolate min-h-screen">
+
+    <!-- Login Screen -->
+    <div id="login-container" class="fixed inset-0 z-50 flex items-center justify-center bg-chocolate/90 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md text-center">
+            <div class="mb-6 flex justify-center">
+                <img src="https://i.ibb.co/8LqpLsLK/Frame-66.png" alt="Mandi Logo" class="h-12 w-auto">
+            </div>
+            <h2 class="text-2xl font-bold mb-6 text-chocolate">Admin Access</h2>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <input type="text" id="admin-id" placeholder="Admin ID" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-accent outline-none">
+                <input type="password" id="admin-pass" placeholder="Password" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-accent outline-none">
+                <p id="login-error" class="text-red-500 text-sm hidden">Invalid credentials</p>
+                <button class="w-full bg-accent text-white font-bold py-3 rounded-lg hover:bg-orange-500 transition-colors">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div id="dashboard-container" class="hidden min-h-screen flex flex-col">
+        <!-- Top Bar -->
+        <header class="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center sticky top-0 z-40 shadow-sm">
+            <div class="flex items-center gap-3">
+                <img src="https://i.ibb.co/8LqpLsLK/Frame-66.png" alt="Logo" class="h-8">
+                <span class="font-bold text-lg text-gray-500">| Dashboard</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-2">
+                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Live
+                </div>
+                <button onclick="logout()" class="text-sm font-semibold text-red-500 hover:text-red-700">Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Area -->
+        <main class="flex-1 p-6 max-w-7xl mx-auto w-full">
+            
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium uppercase tracking-wider">Total Signups</p>
+                            <h3 class="text-4xl font-black text-chocolate mt-2" id="dash-total">...</h3>
+                        </div>
+                        <div class="p-3 bg-blue-50 rounded-xl text-blue-500"><i data-lucide="users"></i></div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium uppercase tracking-wider">Buyers</p>
+                            <h3 class="text-4xl font-black text-chocolate mt-2" id="dash-buyers">...</h3>
+                        </div>
+                        <div class="p-3 bg-orange-50 rounded-xl text-orange-500"><i data-lucide="shopping-basket"></i></div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm font-medium uppercase tracking-wider">Sellers</p>
+                            <h3 class="text-4xl font-black text-chocolate mt-2" id="dash-sellers">...</h3>
+                        </div>
+                        <div class="p-3 bg-green-50 rounded-xl text-green-500"><i data-lucide="sprout"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                    <h3 class="font-bold text-lg">Waitlist Entries</h3>
+                    <button onclick="downloadCSV()" class="text-sm text-accent font-semibold hover:underline">Export CSV</button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 text-gray-500">
+                            <tr>
+                                <th class="px-6 py-3 font-medium">Name</th>
+                                <th class="px-6 py-3 font-medium">Email</th>
+                                <th class="px-6 py-3 font-medium">Role</th>
+                                <th class="px-6 py-3 font-medium">Phone</th>
+                                <th class="px-6 py-3 font-medium">City</th>
+                                <th class="px-6 py-3 font-medium">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body" class="divide-y divide-gray-100">
+                            <!-- Rows will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+        import { getAuth, signInAnonymously, signInWithCustomToken } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+        import { getFirestore, collection, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+
+        let app, auth, db;
+        let allData = [];
+
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            
+            // Auto sign-in for admin to access DB
+            const initAuth = async () => {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) { await signInWithCustomToken(auth, __initial_auth_token); } 
+                else { await signInAnonymously(auth); }
+            };
+            initAuth();
+
+        } catch (e) { console.error(e); }
+
+        window.handleLogin = (e) => {
+            e.preventDefault();
+            const id = document.getElementById('admin-id').value;
+            const pass = document.getElementById('admin-pass').value;
+            const err = document.getElementById('login-error');
+
+            if (id === 'AdminMandi' && pass === 'Yasht#123@mandi') {
+                document.getElementById('login-container').classList.add('hidden');
+                document.getElementById('dashboard-container').classList.remove('hidden');
+                startDataListener();
+            } else {
+                err.classList.remove('hidden');
+            }
+        }
+
+        window.logout = () => {
+            location.reload();
+        }
+
+        function startDataListener() {
+            // Note: In Firestore, simple queries without composite indexes are safer.
+            // We just fetch everything and sort/filter in UI for this scale.
+            const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'waitlist'));
+            
+            onSnapshot(q, (snapshot) => {
+                allData = [];
+                let b = 0, s = 0;
+                
+                snapshot.forEach(doc => {
+                    const d = doc.data();
+                    d.id = doc.id;
+                    if (d.role === 'buyer') b++;
+                    if (d.role === 'seller') s++;
+                    allData.push(d);
+                });
+
+                // Update Counters
+                document.getElementById('dash-total').innerText = allData.length.toLocaleString();
+                document.getElementById('dash-buyers').innerText = b.toLocaleString();
+                document.getElementById('dash-sellers').innerText = s.toLocaleString();
+
+                renderTable(allData);
+            });
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            
+            // Sort by createdAt desc (newest first)
+            data.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+            data.forEach(row => {
+                const date = row.createdAt ? new Date(row.createdAt.seconds * 1000).toLocaleDateString() : 'N/A';
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-medium text-chocolate">${row.name || '-'}</td>
+                    <td class="px-6 py-4 text-gray-500">${row.email || '-'}</td>
+                    <td class="px-6 py-4"><span class="px-2 py-1 rounded text-xs font-bold ${row.role === 'buyer' ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700'} uppercase">${row.role}</span></td>
+                    <td class="px-6 py-4 text-gray-500">${row.phone || '-'}</td>
+                    <td class="px-6 py-4 text-gray-500">${row.city || '-'}</td>
+                    <td class="px-6 py-4 text-gray-400 text-xs">${date}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        window.downloadCSV = () => {
+            let csvContent = "data:text/csv;charset=utf-8,Name,Email,Role,Phone,City,Date\n";
+            allData.forEach(row => {
+                const date = row.createdAt ? new Date(row.createdAt.seconds * 1000).toLocaleDateString() : '';
+                csvContent += `${row.name},${row.email},${row.role},${row.phone},${row.city},${date}\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "mandi_waitlist_data.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
